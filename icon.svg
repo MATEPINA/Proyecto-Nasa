@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" fill="#0B0F19"/>
+  <circle cx="256" cy="256" r="170" fill="none" stroke="#00F0FF" stroke-width="10" opacity=".35"/>
+  <path d="M256 96 L330 140 L330 230 L256 274 L182 230 L182 140 Z" fill="none" stroke="#00F0FF" stroke-width="12" stroke-linejoin="round"/>
+  <path d="M120 360 Q256 300 392 360" fill="none" stroke="#C1673F" stroke-width="18" stroke-linecap="round"/>
+  <path d="M150 395 Q256 350 362 395" fill="none" stroke="#C1673F" stroke-width="10" stroke-linecap="round" opacity=".6"/>
+  <g stroke="#00F0FF" stroke-width="8" stroke-linecap="round">
+    <line x1="256" y1="160" x2="256" y2="200"/><line x1="256" y1="210" x2="256" y2="250" opacity=".4"/>
+    <line x1="216" y1="185" x2="296" y2="185"/>
+  </g>
+  <circle cx="256" cy="185" r="6" fill="#FF3B30"/>
+  <text x="256" y="462" text-anchor="middle" font-family="Consolas, monospace" font-size="54" font-weight="700" fill="#00F0FF" letter-spacing="10">ARES·360</text>
+</svg>

@@ -1,5 +1,5 @@
 /* =========================================================
-   Ares-360 · Estética HUD de casco espacial
+   Ares-360 · Space helmet HUD aesthetics
    ========================================================= */
 :root {
   --bg: #0B0F19;
@@ -28,7 +28,7 @@ button { font-family: inherit; }
 .small { font-size: 10px; }
 [hidden] { display: none !important; }
 
-/* ---------- Visor 360 ---------- */
+/* ---------- 360 viewer ---------- */
 #pano { position: fixed; inset: 0; background: var(--bg); }
 .pnlm-container { background: var(--bg) !important; font-family: var(--font) !important; }
 .pnlm-panorama-info, .pnlm-about-msg { display: none !important; }
@@ -82,7 +82,7 @@ button { font-family: inherit; }
 .chip.warn { border-color: var(--warn); color: var(--warn); }
 .chip.crit { border-color: var(--alert); color: var(--alert); }
 
-/* ---------- Mira central ---------- */
+/* ---------- Center crosshair ---------- */
 #crosshair { position: absolute; left: 50%; top: 50%; width: 46px; height: 46px; transform: translate(-50%, -50%); opacity: .55; }
 #crosshair i { position: absolute; background: var(--cyan); }
 #crosshair i:nth-child(1) { left: 0; top: 50%; width: 14px; height: 1px; }
@@ -90,7 +90,7 @@ button { font-family: inherit; }
 #crosshair i:nth-child(3) { top: 0; left: 50%; width: 1px; height: 14px; }
 #crosshair i:nth-child(4) { bottom: 0; left: 50%; width: 1px; height: 14px; }
 
-/* ---------- Telemetría ---------- */
+/* ---------- Telemetry ---------- */
 #telemetry { top: 16px; left: 16px; width: 300px; padding: 12px 14px; }
 .panel-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
 .loc { border-left: 2px solid var(--cyan); padding-left: 8px; margin-bottom: 12px; }
@@ -121,11 +121,11 @@ button { font-family: inherit; }
 .grid-mini div { display: flex; justify-content: space-between; font-size: 11px; }
 .grid-mini b { color: #fff; font-weight: 600; }
 .minerals .tag { margin-bottom: 5px; }
-#t-min { display: flex; flex-wrap: wrap; gap: 4px; }
+#t-minerals { display: flex; flex-wrap: wrap; gap: 4px; }
 .min-chip { font-size: 10px; padding: 2px 6px; border: 1px solid var(--cyan-dim); background: var(--cyan-faint); }
 .min-chip b { color: var(--cyan); }
 
-/* ---------- Brújula ---------- */
+/* ---------- Compass ---------- */
 #compass-wrap { position: absolute; top: 14px; left: 50%; transform: translateX(-50%); width: 440px; text-align: center; }
 #compass { width: 440px; height: 44px; display: block;
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
@@ -140,7 +140,7 @@ button { font-family: inherit; }
   border: 5px solid transparent; border-bottom-color: var(--cyan);
 }
 
-/* ---------- Alertas ---------- */
+/* ---------- Alerts ---------- */
 #alerts { position: absolute; top: 96px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; gap: 6px; align-items: center; width: min(560px, 90vw); }
 .alert {
   width: 100%; padding: 7px 12px; text-align: center; font-weight: 700; letter-spacing: .12em; font-size: 12px;
@@ -151,12 +151,12 @@ button { font-family: inherit; }
 @keyframes alertIn { from { opacity: 0; transform: translateY(-8px); } }
 @keyframes alertPulse { 50% { background: rgba(255, 59, 48, .08); } }
 
-/* ---------- Estado ---------- */
+/* ---------- Status ---------- */
 #status { top: 16px; right: 16px; padding: 8px 12px; min-width: 210px; }
 .st-title { font-weight: 700; letter-spacing: .14em; color: var(--cyan); margin-bottom: 4px; }
 .st-row { display: flex; justify-content: space-between; gap: 10px; margin-top: 4px; font-size: 11px; }
 
-/* ---------- Detalle hotspot ---------- */
+/* ---------- Hotspot detail ---------- */
 #detail { top: 110px; right: 16px; width: 320px; padding: 14px; max-height: calc(100vh - 420px); min-height: 120px; overflow: auto; animation: slideIn .3s ease-out; }
 @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } }
 #detail.danger { border-color: var(--alert); box-shadow: 0 0 24px rgba(255, 59, 48, .3); }
@@ -170,7 +170,7 @@ button { font-family: inherit; }
 #detail .close { position: absolute; top: 8px; right: 8px; background: none; border: 1px solid var(--cyan-dim); color: var(--cyan); cursor: pointer; width: 22px; height: 22px; }
 #detail .close:hover { background: var(--cyan-faint); }
 
-/* ---------- Navegación ---------- */
+/* ---------- Navigation ---------- */
 #navbar { bottom: 16px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 10px; padding: 6px 8px; }
 .nav-btn {
   width: 40px; height: 40px; background: transparent; color: var(--cyan); border: 1px solid var(--cyan-dim);
@@ -186,7 +186,7 @@ button { font-family: inherit; }
 #nav-dots i.done { background: var(--cyan-dim); }
 #nav-dots i.on { background: var(--cyan); box-shadow: 0 0 8px var(--cyan); }
 
-/* ---------- Minimapa ---------- */
+/* ---------- Minimap ---------- */
 #minimap-wrap { right: 16px; bottom: 16px; width: 262px; height: 262px; padding: 0; }
 #minimap { width: 260px; height: 260px; background: var(--bg); }
 .mm-label { position: absolute; top: -17px; left: 0; font-size: 10px; letter-spacing: .16em; color: var(--cyan); }
@@ -259,7 +259,7 @@ button { font-family: inherit; }
 .pnlm-hotspot-base:hover .hs-core { transform: scale(1.2); }
 .hs-sci:hover .hs-core { transform: rotate(45deg) scale(1.2); }
 
-/* ---------- Arranque ---------- */
+/* ---------- Boot ---------- */
 #boot { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; background: var(--bg); transition: opacity .8s; }
 #boot.out { opacity: 0; pointer-events: none; }
 .boot-box { width: min(460px, 86vw); text-align: center; }
@@ -293,16 +293,16 @@ button { font-family: inherit; }
 }
 
 /* =========================================================
-   CRYO-ISRU · Briefing, Hielo ISRU, Simulador EVA
+   CRYO-ISRU · Briefing, ISRU hydration, EVA Simulator
    ========================================================= */
 
 /* ---------- Briefing ---------- */
-#modal-briefing {
+#briefing-modal {
   position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: 16px;
   background: rgba(5, 8, 14, .55); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
   transition: opacity .4s;
 }
-#modal-briefing.out { opacity: 0; pointer-events: none; }
+#briefing-modal.out { opacity: 0; pointer-events: none; }
 .briefing-box {
   position: relative; width: min(620px, 94vw); padding: 28px 30px 26px; text-align: center;
   background: rgba(11, 15, 25, .72); border: 1px solid var(--cyan-dim);
@@ -318,20 +318,20 @@ button { font-family: inherit; }
   display: inline-block; margin-bottom: 22px; padding: 5px 10px; font-size: 10px; letter-spacing: .16em;
   color: var(--cyan); border: 1px solid var(--cyan-dim); background: var(--cyan-faint);
 }
-#btn-iniciar-eva {
+#btn-start-eva {
   display: block; width: 100%; padding: 15px 10px; cursor: pointer;
   font-size: 16px; font-weight: 800; letter-spacing: .22em;
   color: var(--bg); background: var(--cyan); border: 1px solid var(--cyan);
   box-shadow: 0 0 22px rgba(0, 240, 255, .5); transition: box-shadow .2s, transform .1s;
 }
-#btn-iniciar-eva:hover, #btn-iniciar-eva:focus-visible { box-shadow: 0 0 36px rgba(0, 240, 255, .9); outline: none; }
-#btn-iniciar-eva:active { transform: scale(.985); }
+#btn-start-eva:hover, #btn-start-eva:focus-visible { box-shadow: 0 0 36px rgba(0, 240, 255, .9); outline: none; }
+#btn-start-eva:active { transform: scale(.985); }
 
-/* ---------- Potencial hielo ---------- */
-#m-hidr { --c: #4DE3FF; }
-#m-hidr .m-val { font-size: 15px; }
+/* ---------- Mineral hydration ---------- */
+#m-hydr { --c: #4DE3FF; }
+#m-hydr .m-val { font-size: 15px; }
 
-/* ---------- Botón simulador ---------- */
+/* ---------- Simulator button ---------- */
 .sim-btn {
   display: block; width: 100%; margin-top: 8px; padding: 5px 8px; cursor: pointer;
   font-size: 10px; letter-spacing: .16em; color: var(--cyan);
@@ -339,13 +339,13 @@ button { font-family: inherit; }
 }
 .sim-btn:hover, .sim-btn.on { background: var(--cyan-faint); box-shadow: 0 0 10px rgba(0, 240, 255, .3); }
 
-/* ---------- Gaveta ---------- */
-#panel-simulador {
+/* ---------- Drawer ---------- */
+#simulator-panel {
   position: absolute; top: 134px; right: 0; width: 300px; padding: 12px 14px; z-index: 30;
   transform: translateX(105%); transition: transform .35s cubic-bezier(.2, .8, .2, 1), visibility .35s;
   visibility: hidden;
 }
-#panel-simulador.open { transform: translateX(-16px); visibility: visible; }
+#simulator-panel.open { transform: translateX(-16px); visibility: visible; }
 .sim-x { background: none; border: 1px solid var(--cyan-dim); color: var(--cyan); cursor: pointer; width: 22px; height: 22px; }
 .sim-x:hover { background: var(--cyan-faint); }
 .sim-ctl { padding: 10px 0; border-top: 1px solid var(--cyan-faint); }
@@ -357,7 +357,7 @@ button { font-family: inherit; }
 .sim-line { color: var(--warn); margin-top: 3px; }
 .sim-line b { color: #fff; }
 .sim-line.crit { color: var(--alert); }
-#slider-carga { width: 100%; accent-color: var(--cyan); cursor: pointer; }
+#load-slider { width: 100%; accent-color: var(--cyan); cursor: pointer; }
 
 .switch { position: relative; width: 42px; height: 22px; flex: none; cursor: pointer; }
 .switch input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; z-index: 1; }
@@ -367,7 +367,7 @@ button { font-family: inherit; }
 .switch input:checked + .switch-ui::after { left: 23px; background: var(--alert); }
 .switch input:focus-visible + .switch-ui { outline: 1px solid var(--cyan); outline-offset: 2px; }
 
-/* ---------- Efectos de simulación ---------- */
+/* ---------- Simulation effects ---------- */
 #m-o2.loaded .m-val { color: var(--warn); text-shadow: 0 0 8px var(--warn); }
 .bar .fill-storm {
   position: absolute; top: 0; bottom: 0; left: 0; width: 0; background: var(--alert);
@@ -378,27 +378,27 @@ button { font-family: inherit; }
 #m-rad.storm { --c: var(--alert); }
 #m-rad.storm .m-val { animation: blink 1s steps(2) infinite; }
 #vignette.storm { box-shadow: inset 0 0 120px rgba(255, 159, 10, .4); animation: vigPulse 1.6s ease-in-out infinite; }
-#alerta-solar { position: absolute; top: 190px; left: 50%; transform: translateX(-50%); width: min(560px, 90vw); }
+#solar-alert { position: absolute; top: 190px; left: 50%; transform: translateX(-50%); width: min(560px, 90vw); }
 
 @media (max-width: 700px) {
   .briefing-box { padding: 20px 16px; }
   .briefing-box h1 { font-size: 17px; }
-  #panel-simulador { width: min(300px, 88vw); }
+  #simulator-panel { width: min(300px, 88vw); }
 }
 
-/* ---------- Cráter Gale: telemetría ampliada, hallazgos e impacto ---------- */
-.hs-label small.hs-hall {
+/* ---------- Gale Crater: extended telemetry, findings and impact ---------- */
+.hs-label small.hs-finding {
   width: 230px; white-space: normal; text-transform: none; letter-spacing: .02em;
   color: rgba(214, 247, 255, .85) !important; font-size: 9.5px; line-height: 1.35; margin-top: 4px;
 }
-.loc .terreno { margin-top: 5px; padding: 3px 6px; font-size: 10px; line-height: 1.35; letter-spacing: .04em; border: 1px solid var(--c); color: var(--c); background: rgba(0, 0, 0, .25); }
-.loc .terreno.ok { --c: var(--ok); }
-.loc .terreno.warn { --c: var(--caution); }
-.loc .terreno.crit { --c: var(--alert); background: rgba(255, 59, 48, .12); }
+.loc .terrain { margin-top: 5px; padding: 3px 6px; font-size: 10px; line-height: 1.35; letter-spacing: .04em; border: 1px solid var(--c); color: var(--c); background: rgba(0, 0, 0, .25); }
+.loc .terrain.ok { --c: var(--ok); }
+.loc .terrain.warn { --c: var(--caution); }
+.loc .terrain.crit { --c: var(--alert); background: rgba(255, 59, 48, .12); }
 #t-pmax.crit { color: var(--alert); font-weight: 700; }
 #detail .d-sec { margin-top: 10px; font-size: 10px; letter-spacing: .16em; color: var(--cyan); }
 #detail .d-sec + p { margin-top: 3px; }
-#detail p.impacto { border-left: 2px solid var(--ok); padding-left: 8px; }
+#detail p.impact { border-left: 2px solid var(--ok); padding-left: 8px; }
 #detail { overflow-x: hidden; }
 #detail .kv { gap: 10px; }
 #detail .kv b { text-align: right; overflow-wrap: anywhere; }

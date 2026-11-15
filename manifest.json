@@ -1,8 +1,8 @@
 {
-  "name": "Ares-360 · HUD MarsWalk",
+  "name": "Ares-360 · MarsWalk HUD",
   "short_name": "Ares-360",
-  "description": "HUD táctico offline-first para EVA en el CRÁTER GALE · MONTE SHARP (MISIÓN CURIOSITY) (NASA Space Apps · MarsWalk).",
-  "lang": "es",
+  "description": "Offline-first tactical HUD for an EVA in GALE CRATER · MOUNT SHARP (CURIOSITY MISSION) (NASA Space Apps · MarsWalk).",
+  "lang": "en",
   "start_url": "./index.html",
   "scope": "./",
   "display": "fullscreen",

@@ -1,29 +1,29 @@
 /* =========================================================
    Ares-360 · Service Worker (Offline-First)
-   - Precachea la app, los datos, /assets/ y las librerías CDN.
-   - Archivos propios: red primero y caché como respaldo (los
-     cambios del equipo se ven al momento y funciona en modo avión).
-   - CDN: caché primero.
-   Sube VERSION cada vez que cambies la lista de precache.
+   - Precaches the app, the data, /assets/ and the CDN libraries.
+   - Own files: network first with cache as fallback (team changes
+     show up immediately and it still works in airplane mode).
+   - CDN: cache first.
+   Bump VERSION every time you change the precache list.
    ========================================================= */
-const VERSION = 'ares360-v3';
+const VERSION = 'ares360-v4';
 
 const CORE = [
   './',
   './index.html',
   './style.css',
   './app.js',
-  './datos_ruta.json',
+  './route_data.json',
   './manifest.json',
   './assets/icon.svg',
   './assets/README.txt',
-  // --- Assets reales del Cráter Gale (addAll falla si falta alguno: subir VERSION al cambiarlos)
-  './assets/punto1.jpg',
-  './assets/punto2.jpg',
-  './assets/punto3.jpg',
-  './assets/punto4.jpg',
-  './assets/mapa_gale.jpg',
-  './assets/mapa_gale_hipso.jpg',
+  // --- Real Gale Crater assets (addAll fails if any is missing: bump VERSION when changing them)
+  './assets/point1.jpg',
+  './assets/point2.jpg',
+  './assets/point3.jpg',
+  './assets/point4.jpg',
+  './assets/gale_map.jpg',
+  './assets/gale_map_hypso.jpg',
 ];
 
 const CDN = [
@@ -33,27 +33,27 @@ const CDN = [
   'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js',
 ];
 
-// Respaldo: además de CORE, se precachea cualquier imagen real que datos_ruta.json
-// declare (p. ej. si se añade un punto nuevo) sin romper la instalación si falta.
-async function precacheAssetsOpcionales(cache) {
+// Fallback: besides CORE, precache any real image declared in route_data.json
+// (e.g. if a new point is added) without breaking the install if it is missing.
+async function precacheOptionalAssets(cache) {
   try {
-    const res = await fetch('./datos_ruta.json', { cache: 'no-store' });
+    const res = await fetch('./route_data.json', { cache: 'no-store' });
     const data = await res.json();
-    const a = data.mision.assets || {};
+    const a = data.mission.assets || {};
     const urls = [];
-    if (a.usar_imagenes_reales) data.puntos.forEach(p => urls.push('./' + p.imagen));
-    if (a.usar_mapa_real && a.mapa) urls.push('./' + a.mapa);
-    if (a.usar_mapa_real && a.mapa_hipso) urls.push('./' + a.mapa_hipso);
-    await Promise.all(urls.map(u => cache.add(u).catch(() => console.warn('[SW] No se pudo cachear', u))));
-  } catch (e) { /* sin datos: se omite */ }
+    if (a.use_real_images) data.points.forEach(p => urls.push('./' + p.image));
+    if (a.use_real_map && a.map) urls.push('./' + a.map);
+    if (a.use_real_map && a.map_hypso) urls.push('./' + a.map_hypso);
+    await Promise.all(urls.map(u => cache.add(u).catch(() => console.warn('[SW] Could not cache', u))));
+  } catch (e) { /* no data: skipped */ }
 }
 
 self.addEventListener('install', event => {
   event.waitUntil((async () => {
     const cache = await caches.open(VERSION);
     await cache.addAll(CORE);
-    await Promise.all(CDN.map(u => cache.add(new Request(u, { mode: 'cors' })).catch(() => console.warn('[SW] CDN no disponible', u))));
-    await precacheAssetsOpcionales(cache);
+    await Promise.all(CDN.map(u => cache.add(new Request(u, { mode: 'cors' })).catch(() => console.warn('[SW] CDN unavailable', u))));
+    await precacheOptionalAssets(cache);
     await self.skipWaiting();
   })());
 });
@@ -73,13 +73,13 @@ self.addEventListener('fetch', event => {
   if (url.protocol !== 'http:' && url.protocol !== 'https:') return;
 
   if (url.origin === self.location.origin) {
-    event.respondWith(redPrimero(req));
+    event.respondWith(networkFirst(req));
   } else {
-    event.respondWith(cachePrimero(req));
+    event.respondWith(cacheFirst(req));
   }
 });
 
-async function redPrimero(req) {
+async function networkFirst(req) {
   const cache = await caches.open(VERSION);
   try {
     const res = await fetch(req);
@@ -93,7 +93,7 @@ async function redPrimero(req) {
   }
 }
 
-async function cachePrimero(req) {
+async function cacheFirst(req) {
   const cache = await caches.open(VERSION);
   const hit = await cache.match(req, { ignoreVary: true });
   if (hit) return hit;

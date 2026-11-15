@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#0B0F19">
-  <meta name="description" content="Ares-360: HUD táctico offline-first para EVA en el Cráter Gale · Monte Sharp, misión Curiosity (NASA Space Apps · MarsWalk)">
-  <title>Ares-360 · HUD MarsWalk</title>
+  <meta name="description" content="Ares-360: offline-first tactical HUD for an EVA in Gale Crater · Mount Sharp, Curiosity mission (NASA Space Apps · MarsWalk)">
+  <title>Ares-360 · MarsWalk HUD</title>
   <link rel="manifest" href="manifest.json">
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="assets/icon.svg">
@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Visor 360° -->
+  <!-- 360° viewer -->
   <div id="pano"></div>
   <div id="vignette"></div>
   <div id="scanlines"></div>
@@ -23,141 +23,141 @@
   <div id="hud">
     <div id="crosshair"><i></i><i></i><i></i><i></i></div>
 
-    <!-- Telemetría (superior izquierda) -->
+    <!-- Telemetry (top left) -->
     <section id="telemetry" class="panel brackets">
       <header class="panel-head">
-        <span class="tag">TELEMETRÍA EVA</span>
-        <span id="t-punto" class="chip">P1</span>
+        <span class="tag">EVA TELEMETRY</span>
+        <span id="t-point" class="chip">P1</span>
       </header>
       <div class="loc">
-        <div id="t-nombre" class="loc-name">—</div>
+        <div id="t-name" class="loc-name">—</div>
         <div id="t-sub" class="dim">—</div>
         <div id="t-coords" class="dim small">—</div>
-        <div id="t-terreno" class="terreno" hidden>—</div>
+        <div id="t-terrain" class="terrain" hidden>—</div>
       </div>
 
       <div class="metric" id="m-o2">
-        <div class="m-row"><span class="m-lbl">O₂ RESTANTE</span><b class="m-val"><span class="v">--</span><small>%</small></b></div>
+        <div class="m-row"><span class="m-lbl">O₂ REMAINING</span><b class="m-val"><span class="v">--</span><small>%</small></b></div>
         <div class="bar"><div class="fill"></div><i class="tick" style="left:25%"></i><i class="tick" style="left:50%"></i></div>
-        <div class="m-foot dim small">AUTONOMÍA ≈ <span id="t-auto">--</span></div>
+        <div class="m-foot dim small">AUTONOMY ≈ <span id="t-auto">--</span></div>
       </div>
 
       <div class="metric" id="m-rad">
-        <div class="m-row"><span class="m-lbl">RADIACIÓN ACUM.</span><b class="m-val"><span class="v">--</span><small>mSv</small></b></div>
+        <div class="m-row"><span class="m-lbl">ACCUM. RADIATION</span><b class="m-val"><span class="v">--</span><small>mSv</small></b></div>
         <div class="bar"><div class="fill"></div><i class="tick" style="left:50%"></i><i class="tick" style="left:80%"></i></div>
-        <div class="m-foot dim small">RAD <span id="t-dosis">--</span> · LÍMITE EVA <span id="t-lim">--</span> mSv</div>
+        <div class="m-foot dim small">RAD <span id="t-dose">--</span> · EVA LIMIT <span id="t-lim">--</span> mSv</div>
         <div class="m-foot dim small" id="t-uv">--</div>
       </div>
 
       <div class="metric" id="m-slope">
-        <div class="m-row"><span class="m-lbl">PENDIENTE LOCAL</span><b class="m-val"><span class="v">--</span><small>°</small></b></div>
-        <div class="bar"><div class="fill"></div><i class="tick" id="tick-prec"></i><i class="tick crit" id="tick-pel"></i></div>
-        <div class="m-foot dim small">MÁX. ENTORNO <span id="t-pmax">--</span> · INCL. LAT. <span id="t-incl">--</span> · UMBRAL <span id="t-umbral">--</span>°</div>
+        <div class="m-row"><span class="m-lbl">LOCAL SLOPE</span><b class="m-val"><span class="v">--</span><small>°</small></b></div>
+        <div class="bar"><div class="fill"></div><i class="tick" id="tick-caution"></i><i class="tick crit" id="tick-danger"></i></div>
+        <div class="m-foot dim small">SURR. MAX <span id="t-pmax">--</span> · LAT. TILT <span id="t-tilt">--</span> · THRESHOLD <span id="t-threshold">--</span>°</div>
       </div>
 
-      <div class="metric hielo" id="m-hidr">
-        <div class="m-row"><span class="m-lbl">HIDRATACIÓN MINERAL (ISRU)</span><b class="m-val" id="val-hidr">--</b></div>
-        <div class="bar"><div class="fill" id="bar-hidr" style="width:0%"></div><i class="tick" style="left:50%"></i></div>
-        <div class="m-foot dim small">DAN / CheMin · AGUA LIGADA EN MINERALES</div>
+      <div class="metric hydration" id="m-hydr">
+        <div class="m-row"><span class="m-lbl">MINERAL HYDRATION (ISRU)</span><b class="m-val" id="val-hydr">--</b></div>
+        <div class="bar"><div class="fill" id="bar-hydr" style="width:0%"></div><i class="tick" style="left:50%"></i></div>
+        <div class="m-foot dim small">DAN / CheMin · WATER BOUND IN MINERALS</div>
       </div>
 
       <div class="grid-mini">
-        <div><span class="dim">ELEV MOLA</span><b id="t-elev">--</b></div>
-        <div><span class="dim">PRESIÓN</span><b id="t-pres">--</b></div>
-        <div><span class="dim">T AIRE</span><b id="t-taire">--</b></div>
-        <div><span class="dim">T SUELO</span><b id="t-tsuelo">--</b></div>
-        <div><span class="dim">VIENTO</span><b id="t-viento">--</b></div>
-        <div><span class="dim">RÁFAGAS</span><b id="t-rafaga">--</b></div>
-        <div><span class="dim">HR DÍA–NOCHE</span><b id="t-hr">--</b></div>
-        <div><span class="dim">ODÓMETRO</span><b id="t-dist">--</b></div>
+        <div><span class="dim">MOLA ELEV</span><b id="t-elev">--</b></div>
+        <div><span class="dim">PRESSURE</span><b id="t-pres">--</b></div>
+        <div><span class="dim">AIR T</span><b id="t-air">--</b></div>
+        <div><span class="dim">GROUND T</span><b id="t-ground">--</b></div>
+        <div><span class="dim">WIND</span><b id="t-wind">--</b></div>
+        <div><span class="dim">GUSTS</span><b id="t-gust">--</b></div>
+        <div><span class="dim">RH DAY–NIGHT</span><b id="t-rh">--</b></div>
+        <div><span class="dim">ODOMETER</span><b id="t-dist">--</b></div>
       </div>
 
       <div class="minerals">
-        <div class="tag">MINERALES · CheMin / CRISM</div>
-        <div id="t-min"></div>
+        <div class="tag">MINERALS · CheMin / CRISM</div>
+        <div id="t-minerals"></div>
       </div>
     </section>
 
-    <!-- Brújula (superior centro) -->
+    <!-- Compass (top center) -->
     <div id="compass-wrap">
       <canvas id="compass"></canvas>
       <div id="heading-readout">000°</div>
     </div>
     <div id="alerts"></div>
 
-    <!-- Estado (superior derecha) -->
+    <!-- Status (top right) -->
     <section id="status" class="panel">
       <div class="st-title">ARES-360 <span class="dim">// HUD v1.0</span></div>
       <div class="st-row"><span id="s-sol">SOL ----</span><span id="s-lmst">LMST --:--:--</span></div>
-      <div class="st-row"><span id="s-net" class="chip">EN LÍNEA</span><span id="s-cache" class="chip">CACHÉ…</span></div>
-      <button id="btn-toggle-simulador" class="sim-btn" type="button" aria-expanded="false" aria-controls="panel-simulador">[ SIMULADOR EVA ]</button>
+      <div class="st-row"><span id="s-net" class="chip">ONLINE</span><span id="s-cache" class="chip">CACHE…</span></div>
+      <button id="btn-toggle-simulator" class="sim-btn" type="button" aria-expanded="false" aria-controls="simulator-panel">[ EVA SIMULATOR ]</button>
     </section>
 
-    <!-- Panel de detalle de hotspot -->
+    <!-- Hotspot detail panel -->
     <section id="detail" class="panel brackets" hidden></section>
 
-    <!-- Navegación (inferior centro) -->
+    <!-- Navigation (bottom center) -->
     <nav id="navbar" class="panel">
-      <button id="btn-prev" class="nav-btn" type="button" title="Punto anterior (Q)">◀</button>
+      <button id="btn-prev" class="nav-btn" type="button" title="Previous point (Q)">◀</button>
       <div class="nav-center">
         <div id="nav-label">—</div>
         <div id="nav-dots"></div>
       </div>
-      <button id="btn-next" class="nav-btn" type="button" title="Punto siguiente (E)">▶</button>
-      <button id="btn-fs" class="nav-btn small" type="button" title="Pantalla completa (F)">⛶</button>
+      <button id="btn-next" class="nav-btn" type="button" title="Next point (E)">▶</button>
+      <button id="btn-fs" class="nav-btn small" type="button" title="Fullscreen (F)">⛶</button>
     </nav>
 
-    <!-- Minimapa (inferior derecha) -->
+    <!-- Minimap (bottom right) -->
     <section id="minimap-wrap" class="panel brackets">
       <div id="minimap"></div>
-      <div class="mm-label">MINIMAPA · GALE</div>
+      <div class="mm-label">MINIMAP · GALE</div>
     </section>
 
-    <!-- Aviso de tormenta solar (simulador) -->
-    <div id="alerta-solar" class="alert" role="alert" hidden>☀ ALERTA SOLAR · TORMENTA DE PARTÍCULAS · BUSCAR REFUGIO</div>
+    <!-- Solar storm warning (simulator) -->
+    <div id="solar-alert" class="alert" role="alert" hidden>☀ SOLAR ALERT · PARTICLE STORM · SEEK SHELTER</div>
 
-    <!-- Gaveta Simulador EVA -->
-    <aside id="panel-simulador" class="panel brackets" aria-hidden="true">
+    <!-- EVA Simulator drawer -->
+    <aside id="simulator-panel" class="panel brackets" aria-hidden="true">
       <header class="panel-head">
-        <span class="tag">SIMULADOR EVA</span>
-        <button id="sim-cerrar" class="sim-x" type="button" aria-label="Cerrar">✕</button>
+        <span class="tag">EVA SIMULATOR</span>
+        <button id="sim-close" class="sim-x" type="button" aria-label="Close">✕</button>
       </header>
       <div class="sim-ctl">
-        <label for="slider-carga" class="m-lbl">CARGA DE EQUIPO CIENTÍFICO <b id="val-carga" class="sim-val">+0 kg</b></label>
-        <input id="slider-carga" type="range" min="0" max="40" step="1" value="0">
+        <label for="load-slider" class="m-lbl">SCIENCE EQUIPMENT LOAD <b id="load-val" class="sim-val">+0 kg</b></label>
+        <input id="load-slider" type="range" min="0" max="40" step="1" value="0">
         <div class="sim-scale dim small"><span>+0 kg</span><span>+40 kg</span></div>
-        <div class="m-foot small">CONSUMO O₂ <b id="sim-consumo" class="sim-val">×1.00</b></div>
-        <div class="m-foot dim small">AUTONOMÍA SIM ≈ <span id="sim-auto">--</span></div>
+        <div class="m-foot small">O₂ CONSUMPTION <b id="sim-consumption" class="sim-val">×1.00</b></div>
+        <div class="m-foot dim small">SIM AUTONOMY ≈ <span id="sim-auto">--</span></div>
       </div>
       <div class="sim-ctl">
         <div class="sim-row">
-          <span class="m-lbl">SIMULAR TORMENTA SOLAR</span>
-          <label class="switch"><input id="toggle-tormenta" type="checkbox" role="switch"><span class="switch-ui"></span></label>
+          <span class="m-lbl">SIMULATE SOLAR STORM</span>
+          <label class="switch"><input id="storm-toggle" type="checkbox" role="switch"><span class="switch-ui"></span></label>
         </div>
-        <div class="m-foot dim small" id="sim-tormenta-txt">SIN EVENTO SOLAR</div>
+        <div class="m-foot dim small" id="sim-storm-txt">NO SOLAR EVENT</div>
       </div>
-      <div class="dim small sim-note">Simulación visual local. No altera los datos de la misión.</div>
+      <div class="dim small sim-note">Local visual simulation. Does not alter mission data.</div>
     </aside>
   </div>
 
-  <!-- Briefing de misión -->
-  <div id="modal-briefing" role="dialog" aria-modal="true" aria-labelledby="briefing-titulo">
+  <!-- Mission briefing -->
+  <div id="briefing-modal" role="dialog" aria-modal="true" aria-labelledby="briefing-title">
     <div class="briefing-box brackets">
-      <div class="tag">BRIEFING DE MISIÓN · EVA</div>
-      <h1 id="briefing-titulo">CRÁTER GALE · MONTE SHARP (MISIÓN CURIOSITY)</h1>
-      <p>Misión de exploración EVA por la ruta de Curiosity en el Cráter Gale para localizar minerales hidratados (arcillas, sulfatos y sílice) en las laderas de Monte Sharp, destinados a extracción de agua, oxígeno respirable y combustible (ISRU), evitando pendientes críticas, rocas afiladas y exposición radiológica.</p>
-      <div class="briefing-src">FUENTES: HiRISE PSP_009149_1750 · MOLA · MSL REMS / RAD / CheMin</div>
-      <button id="btn-iniciar-eva" type="button">[ INICIAR CAMINATA EVA ]</button>
+      <div class="tag">MISSION BRIEFING · EVA</div>
+      <h1 id="briefing-title">GALE CRATER · MOUNT SHARP (CURIOSITY MISSION)</h1>
+      <p>EVA exploration mission along Curiosity's route in Gale Crater to locate hydrated minerals (clays, sulfates and silica) on the slopes of Mount Sharp, intended for extracting water, breathable oxygen and fuel (ISRU), while avoiding critical slopes, sharp rocks and radiation exposure.</p>
+      <div class="briefing-src">SOURCES: HiRISE PSP_009149_1750 · MOLA · MSL REMS / RAD / CheMin</div>
+      <button id="btn-start-eva" type="button">[ START EVA WALK ]</button>
     </div>
   </div>
 
-  <!-- Arranque -->
+  <!-- Boot -->
   <div id="boot">
     <div class="boot-box">
       <div class="boot-logo">ARES-360</div>
-      <div class="boot-sub">MARSWALK · HUD TÁCTICO DE EVA · CRÁTER GALE · MONTE SHARP (MISIÓN CURIOSITY)</div>
+      <div class="boot-sub">MARSWALK · TACTICAL EVA HUD · GALE CRATER · MOUNT SHARP (CURIOSITY MISSION)</div>
       <div class="boot-bar"><div id="boot-fill"></div></div>
-      <div id="boot-msg">INICIALIZANDO SISTEMAS…</div>
+      <div id="boot-msg">INITIALIZING SYSTEMS…</div>
     </div>
   </div>
 
@@ -165,40 +165,40 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin="anonymous"></script>
   <script src="app.js"></script>
   <script>
-  /* Briefing + Simulador EVA (autocontenido; no toca app.js) */
+  /* Briefing + EVA Simulator (self-contained; does not touch app.js) */
   (function () {
     const $ = s => document.querySelector(s);
 
     // Briefing
-    const modal = $('#modal-briefing');
-    function cerrarBriefing() { modal.classList.add('out'); setTimeout(() => { modal.hidden = true; }, 400); }
-    $('#btn-iniciar-eva').addEventListener('click', cerrarBriefing);
+    const modal = $('#briefing-modal');
+    function closeBriefing() { modal.classList.add('out'); setTimeout(() => { modal.hidden = true; }, 400); }
+    $('#btn-start-eva').addEventListener('click', closeBriefing);
     document.addEventListener('keydown', e => {
-      if (!modal.hidden && !modal.classList.contains('out') && (e.key === 'Enter' || e.key === 'Escape')) cerrarBriefing();
+      if (!modal.hidden && !modal.classList.contains('out') && (e.key === 'Enter' || e.key === 'Escape')) closeBriefing();
     });
-    $('#btn-iniciar-eva').focus();
+    $('#btn-start-eva').focus();
 
-    // Gaveta
-    const panel = $('#panel-simulador'), btn = $('#btn-toggle-simulador');
-    function gaveta(abrir) {
-      panel.classList.toggle('open', abrir);
-      panel.setAttribute('aria-hidden', String(!abrir));
-      btn.setAttribute('aria-expanded', String(abrir));
-      btn.classList.toggle('on', abrir);
+    // Drawer
+    const panel = $('#simulator-panel'), btn = $('#btn-toggle-simulator');
+    function drawer(open) {
+      panel.classList.toggle('open', open);
+      panel.setAttribute('aria-hidden', String(!open));
+      btn.setAttribute('aria-expanded', String(open));
+      btn.classList.toggle('on', open);
     }
-    btn.addEventListener('click', () => gaveta(!panel.classList.contains('open')));
-    $('#sim-cerrar').addEventListener('click', () => gaveta(false));
+    btn.addEventListener('click', () => drawer(!panel.classList.contains('open')));
+    $('#sim-close').addEventListener('click', () => drawer(false));
 
-    // Carga -> consumo de O2 (+1.25 % por kg => x1.50 a +40 kg)
-    const slider = $('#slider-carga'), mO2 = $('#m-o2'), tAuto = $('#t-auto');
-    const linea = document.createElement('div');
-    linea.className = 'm-foot small sim-line'; linea.hidden = true;
-    mO2.querySelector('.m-foot').after(linea);
+    // Load -> O2 consumption (+1.25 % per kg => x1.50 at +40 kg)
+    const slider = $('#load-slider'), mO2 = $('#m-o2'), tAuto = $('#t-auto');
+    const line = document.createElement('div');
+    line.className = 'm-foot small sim-line'; line.hidden = true;
+    mO2.querySelector('.m-foot').after(line);
 
-    function aplicarCarga() {
+    function applyLoad() {
       const kg = +slider.value, f = 1 + kg * 0.0125;
-      $('#val-carga').textContent = '+' + kg + ' kg';
-      $('#sim-consumo').textContent = '×' + f.toFixed(2);
+      $('#load-val').textContent = '+' + kg + ' kg';
+      $('#sim-consumption').textContent = '×' + f.toFixed(2);
       const m = /(\d+)\s*h\s*(\d+)/.exec(tAuto.textContent);
       let txt = '--';
       if (m) {
@@ -206,40 +206,40 @@
         txt = Math.floor(sim / 60) + ' h ' + String(sim % 60).padStart(2, '0') + ' min';
       }
       $('#sim-auto').textContent = txt;
-      linea.hidden = kg === 0;
-      linea.innerHTML = 'CARGA +' + kg + ' kg · CONSUMO O₂ <b>×' + f.toFixed(2) + '</b> · AUTONOMÍA SIM ≈ <b>' + txt + '</b>';
+      line.hidden = kg === 0;
+      line.innerHTML = 'LOAD +' + kg + ' kg · O₂ CONSUMPTION <b>×' + f.toFixed(2) + '</b> · SIM AUTONOMY ≈ <b>' + txt + '</b>';
       mO2.classList.toggle('loaded', kg > 0);
     }
-    slider.addEventListener('input', aplicarCarga);
-    new MutationObserver(aplicarCarga).observe(tAuto, { childList: true, characterData: true, subtree: true });
+    slider.addEventListener('input', applyLoad);
+    new MutationObserver(applyLoad).observe(tAuto, { childList: true, characterData: true, subtree: true });
 
-    // Tormenta solar -> radiación
+    // Solar storm -> radiation
     const mRad = $('#m-rad'), fillRad = mRad.querySelector('.fill'), barRad = mRad.querySelector('.bar');
     const extra = document.createElement('div');
     extra.className = 'fill-storm'; barRad.appendChild(extra);
-    const lineaRad = document.createElement('div');
-    lineaRad.className = 'm-foot small sim-line crit'; lineaRad.hidden = true;
-    lineaRad.innerHTML = '☀ TORMENTA SOLAR · DOSIS <b>×12</b>';
-    mRad.querySelector('.m-foot').after(lineaRad);
-    const aviso = $('#alerta-solar'), tog = $('#toggle-tormenta');
-    function posExtra() {
+    const lineRad = document.createElement('div');
+    lineRad.className = 'm-foot small sim-line crit'; lineRad.hidden = true;
+    lineRad.innerHTML = '☀ SOLAR STORM · DOSE <b>×12</b>';
+    mRad.querySelector('.m-foot').after(lineRad);
+    const warning = $('#solar-alert'), tog = $('#storm-toggle');
+    function placeExtra() {
       const base = parseFloat(fillRad.style.width) || 0;
       extra.style.left = base + '%';
       extra.style.width = tog.checked ? Math.min(40, 100 - base) + '%' : '0%';
     }
-    function aplicarTormenta() {
+    function applyStorm() {
       const on = tog.checked;
       mRad.classList.toggle('storm', on);
-      lineaRad.hidden = !on;
-      aviso.hidden = !on;
+      lineRad.hidden = !on;
+      warning.hidden = !on;
       $('#vignette').classList.toggle('storm', on);
-      $('#sim-tormenta-txt').textContent = on ? 'EVENTO SOLAR ACTIVO · DOSIS ×12' : 'SIN EVENTO SOLAR';
-      posExtra();
+      $('#sim-storm-txt').textContent = on ? 'SOLAR EVENT ACTIVE · DOSE ×12' : 'NO SOLAR EVENT';
+      placeExtra();
     }
-    tog.addEventListener('change', aplicarTormenta);
-    new MutationObserver(posExtra).observe(fillRad, { attributes: true, attributeFilter: ['style'] });
+    tog.addEventListener('change', applyStorm);
+    new MutationObserver(placeExtra).observe(fillRad, { attributes: true, attributeFilter: ['style'] });
 
-    aplicarCarga(); aplicarTormenta();
+    applyLoad(); applyStorm();
   })();
   </script>
 </body>
