@@ -1,0 +1,16 @@
+{
+  "name": "Ares-360 · HUD MarsWalk",
+  "short_name": "Ares-360",
+  "description": "HUD táctico offline-first para EVA en el CRÁTER GALE · MONTE SHARP (MISIÓN CURIOSITY) (NASA Space Apps · MarsWalk).",
+  "lang": "es",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#0B0F19",
+  "theme_color": "#0B0F19",
+  "icons": [
+    { "src": "assets/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "assets/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ]
+}
